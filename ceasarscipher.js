@@ -1,4 +1,15 @@
 //--------------------------------------------
+//simplier version
+function rot13(str) {
+    return str.replace(/[A-Z]/g, (char) => {
+        const charCode = char.charCodeAt(0);
+        const base = char >= 'A' && char <= 'Z' ? 'A'.charCodeAt(0) : 'a'.charCodeAt(0);
+        const rotatedChar = String.fromCharCode((charCode - base + 13) % 26 + base);
+        return rotatedChar;
+      });
+    }
+rot13("SERR PBQR PNZC");
+//--------------------------------------------
 function rot13(str) {
     let alphabet = 'abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
     let regex = /[a-zA-Z]/;
@@ -18,13 +29,3 @@ function rot13(str) {
 }
 
 rot13("SERR PBQR PNZC");
-
-//simplier version
-function rot13(str) {
-return str.replace(/[A-Z]/g, (char) => {
-    const charCode = char.charCodeAt(0);
-    const base = char >= 'A' && char <= 'Z' ? 'A'.charCodeAt(0) : 'a'.charCodeAt(0);
-    const rotatedChar = String.fromCharCode((charCode - base + 13) % 26 + base);
-    return rotatedChar;
-  });
-}
