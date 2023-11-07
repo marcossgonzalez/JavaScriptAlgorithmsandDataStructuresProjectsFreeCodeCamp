@@ -1,6 +1,9 @@
 //--------------------------------------------
-function telephoneCheck(str) {
-    return true;
-}
+function telephoneCheck (str) {
+    // Define a regular expression for valid phone number patterns
+    const regex = /^(1\s?)?(\(\d{3}\)|\d{3})([\s-]?)\d{3}([\s-]?)\d{4}$/;
 
-telephoneCheck("555-555-5555");
+    // Test the input string against the regular expression
+    return regex.test(str);
+}
+//This is already the simplier solution
