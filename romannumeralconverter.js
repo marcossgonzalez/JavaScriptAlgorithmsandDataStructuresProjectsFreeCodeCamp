@@ -76,3 +76,23 @@ function convertToRoman(num) {
    return num;
 }
 convertToRoman(3);
+
+// simplier version
+function convertToRoman(num) {
+const romanNumerals = ["I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"];
+    const values = [1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000];
+
+    let result = "";
+    let i = 12; // Start with the largest Roman numeral
+
+    while (num > 0) {
+        if (num >= values[i]) {
+            result += romanNumerals[i];
+            num -= values[i];
+        } else {
+            i--;
+        }
+    }
+
+    return result;
+}
