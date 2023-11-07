@@ -16,7 +16,6 @@ function rot13(str) {
     let arrayRot = str;
     let count = 0;
     let stringFinal = '';
-
     while (count < arrayRot.length) {
         if (arrayRot[count].match(regex)) {
             stringFinal += alphabet[arrayRot[count].replace(arrayRot[count], (alphabet.indexOf(arrayRot[count])) + 13)]
