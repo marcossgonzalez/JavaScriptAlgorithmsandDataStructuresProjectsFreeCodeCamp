@@ -1,28 +1,38 @@
 //--------------------------------------------------
 function checkCashRegister(price, cash, cid) {
-    let arrayCashInDrawer = cid
-    let arrayCashValues = [["PENNY",0.01], ["NICKEL", 0.05], ["DIME", 0.1],["QUARTER", 0.25], ["ONE", 1.00], ["FIVE", 5.00], ["TEN", 10.00], ["TWENTY", 20.00],["ONE HUNDRED", 100.00]]
-    console.log(Math.round(arrayCashInDrawer[0][1]/0.01)) //shows quantitie of pennies
-    let change = cash - price;
-    let returnsIndex = 0;
-    let countNow = 0;
-    let valueReturn = 0;
-    let arrayReturns = []
-    console.log(change)
-    if (change<1){
-        for (let i = 0; i<arrayCashValues.length; i++){
-            if(change/arrayCashValues[i][1] >= 1 && i>0){     
-                    countNow = change/arrayCashValues[i][1];
-                    valueReturn = (arrayCashValues[i][1]*countNow);
-                    console.log(valueReturn)
-                    arrayCashInDrawer[i][1] -= valueReturn
-                    returnsIndex = i
-                    }
-                    
-                    }arrayReturns[0] = (arrayCashValues[returnsIndex][0])
-                    arrayReturns[1] = (valueReturn).toFixed(2)
-
-    }console.log(arrayReturns)
-    return change;
+    var changeDue = 100 * (cash - price);
+    var currencyUnits = [1, 5, 10, 25, 100, 500, 1000, 2000, 10000];
+    var changeToGive = [];
+  
+    for (var i = cid.length - 1; i >= 0; i--) {
+      var unitChange = 0;
+      while (currencyUnits[i] <= changeDue && cid[i][1] > 0 && changeDue > 0) {
+        cid[i][1] -= currencyUnits[i] / 100;
+        changeDue -= currencyUnits[i];
+        unitChange += currencyUnits[i] / 100;
+      }
+      if (unitChange !== 0) {
+        changeToGive.push([cid[i][0], unitChange]);
+      }
+    }
+    if (changeDue < 0) {
+        return "Open";
+      }
+    if (changeDue !== 0) {
+      return '{status: "INSUFFICIENT_FUNDS",';
+    }
+  
+    var result;
+if (changeDue <= 0) {
+  result = { status: "OPEN", change: changeToGive };
+} else if (changeDue > 0) {
+  result = '{ status: "INSUFFICIENT_FUNDS", change:', changeToGive, '}';
+} else {
+  result = { status: "CLOSED", change: changeToGive };
 }
-checkCashRegister(19.7, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]);
+result = JSON.stringify(result);
+result = result.replace(/"status":/g, 'status: ');
+result = result.replace(/"change":/g, 'change: ');
+return result;}
+  
+console.log(checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]));
